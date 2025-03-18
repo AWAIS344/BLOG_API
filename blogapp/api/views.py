@@ -8,6 +8,9 @@ from .serializers import RegistrationSerializer , PostSerializer
 # from django.contrib.auth.models import User
 
 from django.contrib.auth import get_user_model
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsAuthorOrAdmin 
 
 User = get_user_model() 
 class Registration(generics.CreateAPIView):
@@ -26,15 +29,23 @@ class Bloglist(generics.ListCreateAPIView):
     
     serializer_class=PostSerializer
     queryset = POSTS.objects.all()
+
+    def get_permissions(self):
+        """
+        Assign permissions based on the request method.
+        """
+        if self.request.method == "GET":
+            return [IsAuthenticated()]  # Only authenticated users can view posts
+        elif self.request.method == "POST":
+            return [IsAuthorOrAdmin()]  # Only authors or admins can create posts
+        return super().get_permissions()
+
+    def perform_create(self, serializer):
+        """
+        Assign the logged-in user as the author.
+        """
+        serializer.save(author=self.request.user)  # Set the author during creation
     
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if not serializer.is_valid():
-            # Extract non_field_errors and return as a list
-            return Response(serializer.errors.get("non_field_errors", serializer.errors), status=status.HTTP_400_BAD_REQUEST)
-        
-        self.perform_create(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
     

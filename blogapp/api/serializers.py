@@ -26,11 +26,24 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
 
-    author = serializers.CharField(source='author.username')
+    author = serializers.CharField(source='author.username',read_only=True)
     class Meta:
         model = POSTS
 
         fields ="__all__"
+
+
+    # def create(self, validated_data):
+    #     """
+    #     Assign the currently logged-in user as the author.
+    #     """
+    #     request = self.context.get('request')  # Get the request object
+    #     if request and request.user.is_authenticated:
+    #         validated_data['author'] = request.user  # Set the author automatically
+    #     else:
+    #         raise serializers.ValidationError({"author": "Authentication is required to create a post."})
+
+    #     return POSTS.objects.create(**validated_data)
 
     def validate(self,data):
 
