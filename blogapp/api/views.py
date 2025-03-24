@@ -53,6 +53,7 @@ class BlogDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=PostSerializer
     queryset = POSTS.objects.all()
     
+    
 
 
     

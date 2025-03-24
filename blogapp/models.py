@@ -26,6 +26,7 @@ class POSTS(models.Model):
 
     title = models.CharField(max_length=10)
     content=models.TextField()
+    catagory=models.ForeignKey(Catagory , on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     status = models.CharField(
         max_length=20,
