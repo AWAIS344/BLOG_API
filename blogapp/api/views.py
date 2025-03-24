@@ -27,7 +27,6 @@ class Registration(generics.CreateAPIView):
     
 
 class Bloglist(generics.ListCreateAPIView):
-    
     serializer_class=PostSerializer
     queryset = POSTS.objects.all()
     permission_classes=[IsAuthorOrAdmin, IsAuth]
@@ -49,10 +48,9 @@ class Bloglist(generics.ListCreateAPIView):
 
 
 class BlogDetails(generics.RetrieveUpdateDestroyAPIView):
-
     serializer_class=PostSerializer
     queryset = POSTS.objects.all()
-    
+
     
 
 
