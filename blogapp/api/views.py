@@ -4,9 +4,9 @@ from rest_framework import serializers
 from blogapp.models import POSTS , Catagory
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from .serializers import RegistrationSerializer , PostSerializer
+from .serializers import RegistrationSerializer , PostSerializer , CatagorySerializer
 
-# from django.contrib.auth.models import User
+
 
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
@@ -51,6 +51,17 @@ class BlogDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=PostSerializer
     queryset = POSTS.objects.all()
 
+
+class CatagoryList(generics.ListCreateAPIView):
+    # permission_classes=[IsAuth]
+    serializer_class=CatagorySerializer
+    queryset = Catagory.objects.all()
+
+
+class CatagoryDetails(generics.RetrieveAPIView):
+    serializer_class=CatagorySerializer
+    queryset = Catagory.objects.all()
+    permission_classes=[IsAuth]
     
 
 
