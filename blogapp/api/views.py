@@ -53,7 +53,7 @@ class BlogDetails(generics.RetrieveUpdateDestroyAPIView):
 
 
 class CatagoryList(generics.ListCreateAPIView):
-    # permission_classes=[IsAuth]
+    permission_classes=[IsAuth]
     serializer_class=CatagorySerializer
     queryset = Catagory.objects.all()
 
